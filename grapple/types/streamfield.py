@@ -447,7 +447,7 @@ def register_streamfield_blocks():
 
         def resolve_page(self, info, **kwargs):
             if self.value is not None:
-                return self.value.specific
+                return self.value
 
     class DocumentChooserBlock(graphene.ObjectType):
         document = graphene.Field(get_document_type(), required=True)
