@@ -440,13 +440,14 @@ def register_streamfield_blocks():
     from .snippets import SnippetTypes
 
     class PageChooserBlock(graphene.ObjectType):
-        page = graphene.Field(PageInterface, required=True)
+        page = graphene.Field(PageInterface, required=False)
 
         class Meta:
             interfaces = (StreamFieldInterface,)
 
         def resolve_page(self, info, **kwargs):
-            return self.value.specific
+            if self.value:
+                return self.value.specific
 
     class DocumentChooserBlock(graphene.ObjectType):
         document = graphene.Field(get_document_type(), required=True)
