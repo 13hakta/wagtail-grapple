@@ -459,7 +459,7 @@ def register_streamfield_blocks():
             return self.value
 
     class ImageChooserBlock(graphene.ObjectType):
-        image = graphene.Field(get_image_type(), required=True)
+        image = graphene.Field(get_image_type(), required=False)
 
         class Meta:
             interfaces = (StreamFieldInterface,)
