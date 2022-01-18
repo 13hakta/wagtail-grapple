@@ -39,7 +39,7 @@ class StreamFieldInterface(graphene.Interface):
     id = graphene.String()
     block_type = graphene.String(required=True)
     field = graphene.String(required=True)
-    raw_value = graphene.String(required=True)
+    raw_value = graphene.String(required=False)
 
     @classmethod
     def resolve_type(cls, instance, info):
@@ -450,7 +450,7 @@ def register_streamfield_blocks():
                 return self.value.specific
 
     class DocumentChooserBlock(graphene.ObjectType):
-        document = graphene.Field(get_document_type(), required=True)
+        document = graphene.Field(get_document_type(), required=False)
 
         class Meta:
             interfaces = (StreamFieldInterface,)
