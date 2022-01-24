@@ -1,6 +1,8 @@
+import inspect
+import uuid
+
 import graphene
 import wagtail
-import inspect
 import wagtail.documents.blocks
 import wagtail.embeds.blocks
 import wagtail.images.blocks
@@ -9,9 +11,9 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from graphene.types import Scalar
 from graphene_django.converter import convert_django_field
+from wagtail.core import blocks
 from wagtail.core.fields import StreamField
 from wagtail.core.rich_text import expand_db_html
-from wagtail.core import blocks
 from wagtail.embeds.blocks import EmbedValue
 from wagtail.embeds.embeds import get_embed
 from wagtail.embeds.exceptions import EmbedException
@@ -173,7 +175,7 @@ class StructBlock(graphene.ObjectType):
                 if isinstance(value, int):
                     value = block.to_python(value)
 
-            stream_blocks.append(StructBlockItem(field, block, value))
+            stream_blocks.append(StructBlockItem(uuid.uuid4(), block, value))
 
         return stream_blocks
 
@@ -435,9 +437,9 @@ registry.streamfield_blocks.update(
 
 
 def register_streamfield_blocks():
-    from .pages import PageInterface
     from .documents import get_document_type
     from .images import get_image_type
+    from .pages import PageInterface
 
     class PageChooserBlock(graphene.ObjectType):
         page = graphene.Field(PageInterface, required=False)
