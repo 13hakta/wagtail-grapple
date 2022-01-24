@@ -1,5 +1,4 @@
 import inspect
-import uuid
 
 import graphene
 import wagtail
@@ -175,7 +174,7 @@ class StructBlock(graphene.ObjectType):
                 if isinstance(value, int):
                     value = block.to_python(value)
 
-            stream_blocks.append(StructBlockItem(uuid.uuid4(), block, value))
+            stream_blocks.append(StructBlockItem(field, block, value))
 
         return stream_blocks
 
@@ -191,7 +190,7 @@ class StreamBlock(StructBlock):
             block_type = stream.block_type
             value = stream.value
             block = self.value.stream_block.child_blocks[block_type]
-            stream_blocks.append(StructBlockItem(block_type, block, value))
+            stream_blocks.append(StructBlockItem(stream.id, block, value))
 
         return stream_blocks
 
