@@ -61,7 +61,9 @@ class StreamFieldInterface(graphene.Interface):
         return registry.streamfield_blocks["generic-block"]
 
     def resolve_id(self, info, **kwargs):
-        return self.id
+        hash_object = hashlib.md5(
+            f"{self.block_type}.{self.id}.{self.raw_value}".encode())
+        return hash_object.hexdigest()
 
     def resolve_block_type(self, info, **kwargs):
         return type(self.block).__name__
@@ -208,11 +210,6 @@ class CharBlock(graphene.ObjectType):
 
     class Meta:
         interfaces = (StreamFieldInterface,)
-
-    def resolve_id(self, info, **kwargs):
-        hash_object = hashlib.md5(
-            f"{self.__class__.__name__}.{self.value}".encode())
-        return hash_object.hexdigest()
 
 
 class TextBlock(graphene.ObjectType):
