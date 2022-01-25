@@ -177,7 +177,10 @@ class StructBlock(graphene.ObjectType):
                 if isinstance(value, int):
                     value = block.to_python(value)
 
-            stream_blocks.append(StructBlockItem(field, block, value))
+            hash_object = hashlib.md5(f"{field}.{value}".encode())
+            id = hash_object.hexdigest()
+
+            stream_blocks.append(StructBlockItem(id, block, value))
 
         return stream_blocks
 
