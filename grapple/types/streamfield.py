@@ -1,4 +1,5 @@
 import inspect
+import hashlib
 
 import graphene
 import wagtail
@@ -207,6 +208,11 @@ class CharBlock(graphene.ObjectType):
 
     class Meta:
         interfaces = (StreamFieldInterface,)
+
+    def resolve_id(self, info, **kwargs):
+        hash_object = hashlib.md5(
+            f"{self.__class__.__name__}.{self.value}".encode())
+        return hash_object.hexdigest()
 
 
 class TextBlock(graphene.ObjectType):
