@@ -411,7 +411,7 @@ class ListBlock(graphene.ObjectType):
         # Return a list of GraphQL types from the list of values
         c = 0
         for item in self.value:
-            list_blocks.append(StructBlockItem(f"{self.id}-{c := c + 1}", block_type, item))
+            list_blocks.append(StructBlockItem(f"{self.id}-{(c := c + 1)}", block_type, item))
 
         return list_blocks
 
