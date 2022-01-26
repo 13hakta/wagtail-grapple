@@ -407,8 +407,13 @@ class ListBlock(graphene.ObjectType):
     def resolve_items(self, info, **kwargs):
         # Get the nested StreamBlock type
         block_type = self.block.child_block
+        list_blocks = []
         # Return a list of GraphQL types from the list of values
-        return [StructBlockItem(self.id, block_type, item) for item in self.value]
+        c = 0
+        for item in self.value:
+            list_blocks.append(StructBlockItem(f"{self.id}-{c := c + 1}", block_type, item))
+
+        return list_blocks
 
 
 registry.streamfield_blocks.update(
