@@ -474,6 +474,9 @@ def register_streamfield_blocks():
         class Meta:
             interfaces = (StreamFieldInterface,)
 
+        def resolve_id(self, info, **kwargs):
+            return f"image-{self.value.id}"
+
         def resolve_image(self, info, **kwargs):
             return self.value
 
